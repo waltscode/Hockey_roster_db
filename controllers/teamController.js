@@ -60,7 +60,21 @@ const teamController = {
         } catch (err) {
             res.status(500).json(err);
         }
-    }
+    },
+    async getTeamAndPlayersById(req, res) {
+        try {
+            const teamData = await Team.findByPk(req.params.id, {
+                include: 'players'
+            });
+            if (!teamData) {
+                res.status(404).json({ message: 'No team found with that id!' });
+                return;
+            }
+            res.status(200).json(teamData);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+},
 };
 
 module.exports = teamController;
